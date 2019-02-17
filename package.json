@@ -1,0 +1,67 @@
+{
+  "name": "@use-firebase/auth",
+  "publishConfig": {
+    "access": "public"
+  },
+  "version": "0.1.0",
+  "description": "A custom React Hook that provides a declarative interface for Firebase Auth.",
+  "main": "dist/auth.js",
+  "umd:main": "dist/auth.umd.js",
+  "module": "dist/auth.m.js",
+  "source": "src/index.js",
+  "types": "types/index.d.ts",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/donavon/use-firebase-auth.git"
+  },
+  "scripts": {
+    "prepublishOnly": "npm run build",
+    "lint": "eslint src",
+    "test": "jest --verbose --coverage --silent",
+    "test:watch": "jest --watch --runInBand --silent",
+    "prebuild": "npm run lint && npm t && rimraf dist",
+    "build": "microbundle -o dist/ --sourcemap false --target web",
+    "dev": "microbundle watch -o dist/ --sourcemap false --compress false"
+  },
+  "keywords": [
+    "react-hooks",
+    "hooks",
+    "react",
+    "utils",
+    "lib",
+    "auth"
+  ],
+  "author": "donavon",
+  "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.2.3",
+    "@babel/preset-react": "^7.0.0",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^23.6.0",
+    "eslint": "^5.10.0",
+    "eslint-config-amex": "^9.0.0",
+    "firebase": "^5.8.2",
+    "jest": "^23.6.0",
+    "jest-dom": "^3.0.0",
+    "microbundle": "^0.9.0",
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0",
+    "react-testing-library": "^5.8.0",
+    "rimraf": "^2.6.2"
+  },
+  "peerDependencies": {
+    "firebase": "^5.8.2",
+    "react": "^16.8.0"
+  },
+  "jest": {
+    "coverageThreshold": {
+      "global": {
+        "branches": 0,
+        "functions": 0,
+        "lines": 0,
+        "statements": 0
+      }
+    }
+  }
+}
