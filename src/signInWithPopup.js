@@ -1,5 +1,5 @@
-const signInWithPopup = (app, provider) => (provider.isOAuthProvider
-  ? app.auth().signInWithPopup(provider)
-  : app.auth().signInAnonymously());
+const signInWithPopup = (auth, provider) => (provider.isOAuthProvider
+  ? auth.signInWithPopup(provider)
+  : auth.signInAnonymously());
 
 export default signInWithPopup;

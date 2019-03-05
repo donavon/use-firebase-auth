@@ -3,13 +3,12 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "A custom React Hook that provides a declarative interface for Firebase Auth.",
   "main": "dist/auth.js",
   "umd:main": "dist/auth.umd.js",
   "module": "dist/auth.m.js",
   "source": "src/index.js",
-  "types": "types/index.d.ts",
   "license": "MIT",
   "repository": {
     "type": "git",
