@@ -3,7 +3,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "0.1.0",
+  "version": "0.3.0",
   "description": "A custom React Hook that provides a declarative interface for Firebase Auth.",
   "main": "dist/auth.js",
   "umd:main": "dist/auth.umd.js",
@@ -21,8 +21,8 @@
     "test": "jest --verbose --coverage --silent",
     "test:watch": "jest --watch --runInBand --silent",
     "prebuild": "npm run lint && npm t && rimraf dist",
-    "build": "microbundle -o dist/ --sourcemap false --target web",
-    "dev": "microbundle watch -o dist/ --sourcemap false --compress false"
+    "build": "microbundle -o dist/ --sourcemap false --target web --jsx React.createElement",
+    "dev": "microbundle watch -o dist/ --sourcemap false --compress false --jsx React.createElement"
   },
   "keywords": [
     "react-hooks",
@@ -30,9 +30,10 @@
     "react",
     "utils",
     "lib",
-    "auth"
+    "auth",
+    "firebase"
   ],
-  "author": "donavon",
+  "author": "Donavon West <donavon@github.com> (https://github.com/donavon)",
   "devDependencies": {
     "@babel/core": "^7.2.2",
     "@babel/preset-env": "^7.2.3",
@@ -63,5 +64,9 @@
         "statements": 0
       }
     }
+  },
+  "dependencies": {
+    "@use-firebase/app": "^0.3.1",
+    "prop-types": "^15.7.2"
   }
 }

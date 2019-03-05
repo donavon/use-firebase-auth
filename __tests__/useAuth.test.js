@@ -15,7 +15,7 @@ const createMockApp = (handlers, uninitialize = () => {}) => ({
 });
 
 describe('useAuth', () => {
-  test('listens for auth Firebase changes and returns a `session` object', () => {
+  test('initially returns loading=`true` until an event fires', () => {
     const handlers = [];
     const mockApp = createMockApp(handlers);
 
@@ -25,8 +25,7 @@ describe('useAuth', () => {
     });
 
     expect(handlers.length).toBe(1);
-    expect(value.isSignedIn).toBe(false);
-    expect(value.user).toEqual({});
+    expect(value.loading).toBe(true);
   });
 
   test('cleans up on unmount', () => {
