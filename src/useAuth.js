@@ -4,7 +4,8 @@ import {
 
 import createUser from './utils/createUser';
 import _createAuthProvider from './createAuthProvider';
-import _signInWithPopup from './signInWithPopup';
+import _signIn from './signIn';
+import _signOut from './signOut';
 
 const defaultSession = { loading: true };
 
@@ -12,17 +13,9 @@ const useAuth = (app) => {
   const [session, setSession] = useState(defaultSession);
 
   const auth = useMemo(() => app.auth(), [app]);
-
-  const signOut = useCallback(() => auth.signOut(), [auth]);
-
-  const signIn = useCallback(provider => _signInWithPopup(auth, provider), [
-    auth,
-  ]);
-
-  const createAuthProvider = useCallback(
-    authProvider => _createAuthProvider(app, authProvider),
-    [app]
-  );
+  const signIn = useCallback((...args) => _signIn(auth, ...args), [auth]);
+  const signOut = useCallback((...args) => _signOut(auth, ...args), [auth]);
+  const createAuthProvider = useCallback((...args) => _createAuthProvider(app, ...args), [app]);
 
   useEffect(
     () => auth.onAuthStateChanged((_user) => {
@@ -33,13 +26,15 @@ const useAuth = (app) => {
     [auth, setSession]
   );
 
-  return {
+  const results = useMemo(() => ({
     ...session,
     app,
     signIn,
     signOut,
     createAuthProvider,
-  };
+  }), [session, app, signIn, signOut, createAuthProvider]);
+
+  return results;
 };
 
 export default useAuth;

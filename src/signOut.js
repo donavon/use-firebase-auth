@@ -1,3 +1,3 @@
-const signOut = app => app.auth().signOut();
+const signOut = auth => auth.signOut();
 
 export default signOut;
