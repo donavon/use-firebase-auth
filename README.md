@@ -1,6 +1,6 @@
 # @use-firebase/auth
 
-A custom React Hook that impliments Firebase's Auth object.
+A custom React Hook that provides a declarative interface for Firebase Auth.
 
 [![npm version](https://badge.fury.io/js/%40use-firebase%2Fauth.svg)](https://badge.fury.io/js/%40use-firebase%2Fauth)
 [![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
@@ -54,22 +54,19 @@ export default FirebaseApp;
 This provides the global context that `useFirebaseAuth` needs. Now you can use `useFirebaseAuth`
 anywhere in your App.
 
-Initially, you will probably want to diusplay either a Sign In screen if not signed in.
+Initially, you will probably want to display either a Sign In screen if not signed in.
 You can detect if you are signed in like this.
 
 ```jsx
 import { useFirebaseAuth } from '@use-firebase/auth';
-import Splashr from 'splashr';
 
 const App = () => {
-  const { loading, isSignedIn } = useFirebaseAuth();
+  const { isSignedIn } = useFirebaseAuth();
 
   return (
-    <Splashr minDelay={0} extend={loading} splash={<SplashScreen />}>
-      <div className="App">
-        {isSignedIn ? <AuthenticatedApp /> : <NonAuthenticatedApp />}
-      </div>
-    </Splashr>
+    <div className="App">
+      {isSignedIn ? <AuthenticatedApp /> : <NonAuthenticatedApp />}
+    </div>
   );
 };
 
@@ -79,7 +76,8 @@ export default App;
 Here we either render the `AuthenticatedApp` or the `NonAuthenticatedApp` component.
 The `NonAuthenticatedApp` would be where we render the sign in page.
 
-Here's an example sign in page.
+Here's an example sign in page with a button that allows the user
+to sign in with their Google credentials.
 
 ```jsx
 import { useFirebaseAuth, AuthProvider } from '@use-firebase/auth';
@@ -112,7 +110,7 @@ const NonAuthenticatedApp = () => {
 
 It redirects to the authentication page of the provider—Google in this case.
 After the user is authenticated, you will be redirected back to your app where
-`isSignedIn` will be `true` and the `AuthenticatedApp` will be rendered.
+`isSignedIn` will be `true` and the `AuthenticatedApp` component will be rendered.
 
 Here is a sample `AuthenticatedApp` component.
 
@@ -137,7 +135,8 @@ const AuthenticatedApp = () => {
 };
 ```
 
-You will note that it desteuctures 2 things from the call to `useFirebaseAuth`: `user` and `signOut`.
+You will note that it destructures two things from the call to `useFirebaseAuth`:
+`user` (a user object) and `signOut` (a function to sign out).
 
 ## API
 
@@ -167,7 +166,7 @@ A session object has the following properties.
 | :------------------- | :--------------------------------------------------------------------------- |
 | `loading`            | Set to `true` if the rest of the session properties are indeterminate.       |
 | `isSignedIn`         | Set to `true` if the user is signed in.                                      |
-| `user`               | A `user` object. See below.                                                    |
+| `user`               | A `user` object if signed in, otherwise an empty object. See below.                                                    |
 | `createAuthProvider` | A function that returns a `provider` instance given an enum `AuthProvider` value. |
 | `signIn`             | A function that will take the user on the sign in journey. If successful, `isSignedIn` will be to `false`. See below for details.        |
 | `signOut`            | A function that will sign the user out. If successful, `isSignedIn` will be to `false`.      |
