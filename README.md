@@ -83,26 +83,25 @@ to sign in with their Google credentials.
 import { useFirebaseAuth, AuthProvider } from '@use-firebase/auth';
 
 const NonAuthenticatedApp = () => {
-  const [message, setMesage] = useState('');
-  const { signIn, createAuthProvider } = useFirebaseAuth();
+  const { signIn, signInError, createAuthProvider } = useFirebaseAuth();
 
-  const signInWithRedirect = authProvider => {
-    setMesage('');
+  const onSignIn = authProvider => {
     const provider = createAuthProvider(authProvider);
-    signIn(provider).catch(error => {
-      setMesage(error.message);
-    });
+    signIn(provider);
   };
 
   return (
     <div>
       <h1>Please Sign In</h1>
       <p>
-        <button onClick={() => signInWithRedirect(AuthProvider.GOOGLE)}>
+        <button onClick={() => onSignIn(AuthProvider.GOOGLE)}>
           Sign In with Google
         </button>
       </p>
-      {message && <div className="error-message">{message}</div>}
+      {signInError && <div className="error-message">
+        <h3>{signInError.code}</h3>
+        {signInError.message}
+      </div>}
     </div>
   );
 };
@@ -111,8 +110,20 @@ const NonAuthenticatedApp = () => {
 It redirects to the authentication page of the provider—Google in this case.
 After the user is authenticated, you will be redirected back to your app where
 `isSignedIn` will be `true` and the `AuthenticatedApp` component will be rendered.
+If there was an error for any reason, `signInError` will be non-null.
 
-Here is a sample `AuthenticatedApp` component.
+If you would rather use a popup, instead of a redirect, replace `onSignIn` with this.
+
+```js
+const onSignIn = authProvider => {
+  const provider = createAuthProvider(authProvider);
+  signIn(provider, { method: 'signInWithPopup' });
+};
+```
+
+One the user has been sucessfully authenticated, you will want to display an authenticated
+experience, Here is a sample `AuthenticatedApp` component that displayed the user's name
+and image. It also renders a sign out button.
 
 ```jsx
 import { useFirebaseAuth } from '@use-firebase/auth';
@@ -183,7 +194,7 @@ A session object has the following properties.
 | `photoURL`      | A URL to the user's image. May not be included for all providers.                                              |
 | `email`         | The user's email address. May not be included for all providers.                                               |
 | `emailVerified` | `true` if the email is verified.                                                                               |
-| `isAnonymous`   | `true` if the authenticaion method is anonymous. WIll be `false` if you used a provider other than `ANONYMOUS` |
+| `isAnonymous`   | `true` if the authenticaion method was `ANONYMOUS`. |
 | `phoneNumber`   | The user's phone number. May not be included for all providers.                                                |
 
 #### createAuthProvider
