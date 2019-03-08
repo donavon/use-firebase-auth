@@ -11,9 +11,16 @@ const defaultSession = { loading: true };
 
 const useAuth = (app) => {
   const [session, setSession] = useState(defaultSession);
+  const [signInError, setSignInError] = useState(null);
 
+  const onSignInError = useCallback((error) => { setSignInError(error); }, [setSignInError]);
   const auth = useMemo(() => app.auth(), [app]);
-  const signIn = useCallback((...args) => _signIn(auth, ...args), [auth]);
+  const signIn = useCallback(
+    (...args) => {
+      setSignInError(null);
+      return _signIn(auth, ...args).catch(onSignInError);
+    }, [auth, setSignInError, onSignInError]
+  );
   const signOut = useCallback((...args) => _signOut(auth, ...args), [auth]);
   const createAuthProvider = useCallback((...args) => _createAuthProvider(app, ...args), [app]);
 
@@ -26,13 +33,21 @@ const useAuth = (app) => {
     [auth, setSession]
   );
 
+  useEffect(
+    () => {
+      auth.getRedirectResult().catch(onSignInError);
+    },
+    [auth, onSignInError]
+  );
+
   const results = useMemo(() => ({
     ...session,
+    signInError,
     app,
     signIn,
     signOut,
     createAuthProvider,
-  }), [session, app, signIn, signOut, createAuthProvider]);
+  }), [session, signInError, app, signIn, signOut, createAuthProvider]);
 
   return results;
 };

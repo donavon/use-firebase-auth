@@ -11,6 +11,8 @@ const createMockApp = (handlers, uninitialize = () => {}) => ({
       handlers.push(cb);
       return uninitialize;
     },
+    // eslint-disable-next-line prefer-promise-reject-errors
+    getRedirectResult: () => Promise.reject('bad'),
   }),
 });
 
@@ -102,6 +104,21 @@ describe('useAuth', () => {
       creationTime: new Date(0),
       lastSignInTime: new Date(0),
     });
+  });
+
+  test('returns a signInError', (done) => {
+    const handlers = [];
+    const mockApp = createMockApp(handlers);
+
+    let value;
+    testHook(() => {
+      value = useAuth(mockApp);
+    });
+
+    setTimeout(() => {
+      expect(value.signInError).toBe('bad');
+      done();
+    }, 10);
   });
 
   test('returns the new value with {isSignedIn: false} on sign out', () => {

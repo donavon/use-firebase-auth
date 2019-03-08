@@ -167,6 +167,7 @@ A session object has the following properties.
 | `loading`            | Set to `true` if the rest of the session properties are indeterminate.       |
 | `isSignedIn`         | Set to `true` if the user is signed in.                                      |
 | `user`               | A `user` object if signed in, otherwise an empty object. See below.                                                    |
+| `signInError`        | The error from the previous `signIn` attempt or `null` if it was a success.  |
 | `createAuthProvider` | A function that returns a `provider` instance given an enum `AuthProvider` value. |
 | `signIn`             | A function that will take the user on the sign in journey. If successful, `isSignedIn` will be to `false`. See below for details.        |
 | `signOut`            | A function that will sign the user out. If successful, `isSignedIn` will be to `false`.      |

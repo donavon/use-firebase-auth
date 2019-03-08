@@ -10,6 +10,8 @@ const createMockApp = (handlers, uninitialize = () => {}) => ({
       handlers.push(cb);
       return uninitialize;
     },
+    // eslint-disable-next-line prefer-promise-reject-errors
+    getRedirectResult: () => Promise.reject('bad'),
   }),
 });
 
