@@ -41,7 +41,7 @@
     "babel-jest": "^23.6.0",
     "eslint": "^5.10.0",
     "eslint-config-amex": "^9.0.0",
-    "firebase": "^5.8.2",
+    "firebase": "^7.19.1",
     "jest": "^23.6.0",
     "jest-dom": "^3.0.0",
     "microbundle": "^0.9.0",
@@ -51,7 +51,7 @@
     "rimraf": "^2.6.2"
   },
   "peerDependencies": {
-    "firebase": "^5.8.2",
+    "firebase": "^7.19.1",
     "react": "^16.8.0"
   },
   "jest": {
