@@ -66,6 +66,6 @@
   },
   "dependencies": {
     "@use-firebase/app": "^0.3.1",
-    "prop-types": "^15.7.2"
+    "prop-types": "^15.8.0"
   }
 }
